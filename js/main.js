@@ -32,13 +32,23 @@ getCurrentPosition = () => {
 const geoSuccess = location => {
     console.log(location.coords);
     const {latitude, longitude} = location.coords;
+    const cssConfig = [
+        {
+            'featureType': 'all',
+            'stylers': [
+            ]
+        }
+    ];
     const locationMapEl = document.querySelector('#location-map');
     const antipodeMapEl = document.querySelector('#antipode-map');
-    const locationConfig = {center: {lat: latitude, lng: longitude}, zoom: 7};
+    const mapConfig = {center: {lat: latitude, lng: longitude}, zoom: 7, styles: cssConfig};
 
     // const antipodeConfig = {center: {}, zoom: 7};
-    const locationMap = new google.maps.Map(locationMapEl, locationConfig);
-    const userLocationPin = new google.maps.Marker({position: locationConfig.center, map: locationMap});
+    const locationMap = new google.maps.Map(locationMapEl, mapConfig);
+    const userLocationPin = new google.maps.Marker({position: mapConfig.center, map: locationMap});
+
+    const antipodeMap = new google.maps.Map(antipodeMapEl, mapConfig);
+    const antipodeLocationPin = new google.maps.Marker({position: mapConfig.center, map: antipodeMap});
 }
 
 const geoFailure = error => {
@@ -49,9 +59,8 @@ const geoFailure = error => {
 }
 
 domReady(() => {
-    console.log('DOM is ready!');
-    // We're ready
-    // Prompt to use the users current location so we can use it as a point on our location-map
-    // via a button next to the search/location input, don't prompt for it straight away
-    // Tell the browser to use a recently obtained location, the browser doesn't have to start geolocation hardware then
+    // nothing here since google maps async does a callback to getCurrentPosition()
 });
+
+// Antipode Color Scheme:
+// #DBD56E, #88AB75, #2D93AD, #7D7C84, #DE8F6E
